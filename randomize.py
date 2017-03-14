@@ -1,6 +1,7 @@
 from math import *
 import csv
 import argparse
+import random
 
 
 
@@ -20,49 +21,64 @@ with open(args['file'], 'rb') as csvfile:
 	readcsv = csv.reader(csvfile, delimiter = ',')
 	for row in readcsv:
 		dataquest.append(row)
-
-x =  dataquest[2]
+y = dataquest[2]
+x =  dataquest[3]
 for i in range(len(x)):
 	print x[i]
+	print y[i]
 
 
 def create_dictionary(lolists):
 	'''Idea is to create a dictionary that will link a question's ID to
 	its attributes.  That is, the key:value pair will be questionID:attributes
 	'''
+	# TODO
 	# Use K-th entry to extract the question ID
 
 	#Create an array that stores NEEDED attributes.  Carefuly write this in docs
 
+def master_shuffle():
+	'''merges two 108 quesiton randomized blocks.'''
 
 
 
+def shuffle_combine(a,b,c):
+	'''Create 108 randomized 8-bit numbers according to specifications in argument
+		Both PM and Wanting will have the same None-Verbatim-Gist (Label type) order
+		however within each 18 question block, the questions will be randomized.
+	'''
+	# SCALE TYPE:  [0 = verbatim, 1= gist]
+	# For a, shuffle scale type and make two blocks
+	aPivot = random.randint(0,1)
+	 
+	
+	# For b, shuffle scale type and make two blocks
+
+	# For c, shuffle scale type and make two blocks
 
 
-def parse_file():
-
-
+	# merge and return
+	
 	return
 
 
+def shuffle_scale_block():
+	''''Creates a scale-type-block shuffling category, stim size, plate size
+		There are two blocks of this.  18Q
+		8-bit:  pqqrrXXX
+		p =[0,1] 		 = category
+		q = [10,01,00]	 = stimsize
+		r = [10,01,11]	 = platesize 
+	'''
+	#Randomize category
+	p = random.choice(['0','1'])
+	#Randomize Stimsize
+	q = random.choice(['10','01','00'])
+	#Randomize Plate Size
+	r = random.choice(['10','01','00'])
 
-def file_reader_crypt():
-	# open file
+	return p+q+r
 
-	# parse select data
-
-	# encode
-
-	#return array
-	return
-
-
-
-def shuffle():
-	# shuffle into new array
-
-	# return shuffled array
-	return
 
 
 
