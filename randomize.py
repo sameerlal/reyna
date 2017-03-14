@@ -42,24 +42,6 @@ def master_shuffle():
 
 
 
-def shuffle_combine(a,b,c):
-	'''Create 108 randomized 8-bit numbers according to specifications in argument
-		Both PM and Wanting will have the same None-Verbatim-Gist (Label type) order
-		however within each 18 question block, the questions will be randomized.
-	'''
-	# SCALE TYPE:  [0 = verbatim, 1= gist]
-	# For a, shuffle scale type and make two blocks
-	aPivot = random.randint(0,1)
-	 
-	
-	# For b, shuffle scale type and make two blocks
-
-	# For c, shuffle scale type and make two blocks
-
-
-	# merge and return
-	
-	return
 
 
 def shuffle_scale_block():
@@ -69,16 +51,51 @@ def shuffle_scale_block():
 		p =[0,1] 		 = category
 		q = [10,01,00]	 = stimsize
 		r = [10,01,11]	 = platesize 
+
+		RETURNS A LIST OF 18 QUESTIONS
 	'''
+	
+	list_q = []
+	for i in range(18):
+		list_q.append(shuffle_segment())
+
+	return list_q
+
+def shuffle_segment():
+	'''Creates one randomized shufled 3-part question
+		8-bit:  pqqrrXXX
+		p =[0,1] 		 = category
+		q = [10,01,00]	 = stimsize
+		r = [10,01,11]	 = platesize 
+	'''
+
 	#Randomize category
 	p = random.choice(['0','1'])
 	#Randomize Stimsize
 	q = random.choice(['10','01','00'])
 	#Randomize Plate Size
 	r = random.choice(['10','01','00'])
-
+	
 	return p+q+r
 
+
+
+def shuffle_combine(a,b,c):
+	'''Create 108 randomized 8-bit numbers according to specifications in argument
+		Both PM and Wanting will have the same None-Verbatim-Gist (Label type) order
+		however within each 18 question block, the questions will be randomized.
+	'''
+	# SCALE TYPE:  [0 = verbatim, 1= gist]
+	# For a, shuffle scale type and make two blocks
+	aPivot = random.randint(0,1)
+	
+
+	# merge and return
+	
+	return list_a.append(list_b).append(list_c)
+
+addd = shuffle_combine(1,2,2)
+print addd
 
 
 
