@@ -1,0 +1,3 @@
+Log file:
+
+3/16/17 - Update program to include instructions block before each 18Q
