@@ -24,13 +24,14 @@ with open(args['file'], 'rb') as csvfile:
 
   
 
+
 def create_dictionary(lolists):
 	'''Idea is to create a dictionary that will link a question's ID to
 	its attributes.  That is, the key:value pair will be questionID:row
 	Map listoflists[i][8] --> listoflists[i]
 	'''
 	dic = {}
-	for i in range(1,len(lolists)):
+	for i in range(1,len(lolists)-12):
 		dic[str(lolists[i][8])] = lolists[i]
 	return dic
 
@@ -94,7 +95,7 @@ def shuffle_combine(a,b,c):
 		Inputs:  a,b,c order of gist/verb/none
 		Return:  36*3 = 108 Q
 
-		INcorporates Label type at end
+		Incorporates Label type at end
 	'''
 		# create 3 36-question blocks and postpend a,b,c in that order
 	block_a = shuffle_big_block()
@@ -130,7 +131,8 @@ def master_shuffle():
 
 
 def write_out(dictionary, order):
-	
+	''' Prints all values in dictionary according to a binary-encoded order
+	'''	
 	#print dictionary
 	#print order
 	outfilename = "thisistheoutputfile" + str(args['seed']) + ".csv"
