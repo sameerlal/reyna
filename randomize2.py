@@ -32,9 +32,6 @@ def create_dictionary(lolists):
 	dic = {}
 	for i in range(1,len(lolists)):
 		dic[str(lolists[i][8])] = lolists[i]
-	print "ljsdfklajsdlkfjslf"
-	print dic
-	print "end of dictionar------------"
 	return dic
 
 # Create mapping
@@ -149,7 +146,6 @@ def write_out(dictionary, order):
 finish = "not successful"
 
 order_shuffle =  master_shuffle()
-print order_shuffle
 finish = write_out(data_dic, order_shuffle)
 print finish
 
