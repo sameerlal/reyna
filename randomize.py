@@ -15,14 +15,25 @@ args = vars(parser.parse_args())
  
 
 
-dataquest = []	#	Contains questions in a list of lists 
+dataquest = []	#	Contains ALL data in a list of lists 
+
+instr_cols = [] #	Contains ONLY the instructions in a list of lists
+
+
+
 
 with open(args['file'], 'rb') as csvfile:
 	readcsv = csv.reader(csvfile, delimiter = ',')
 	for row in readcsv:
 		dataquest.append(row)
 
-  
+for i in range(len(dataquest)-12, len(dataquest)):
+	instr_cols.append(dataquest[i])
+print ">>>>>>>printing instr-cols>>>>>>>>>>>>>>"
+print instr_cols
+print ">>>>>>>>>>>end>>>>>>>>>>>>>>>>>>>>>>>>>"
+
+
 
 def create_dictionary(lolists):
 	'''Idea is to create a dictionary that will link a question's ID to
@@ -30,11 +41,15 @@ def create_dictionary(lolists):
 	Map listoflists[i][8] --> listoflists[i]
 	'''
 	dic = {}
-	for i in range(1,len(lolists)):
+	for i in range(1,len(lolists)-12):			#ignore last 12 cells
 		dic[str(lolists[i][8])] = lolists[i]
-	print "ljsdfklajsdlkfjslf"
-	print dic
-	print "end of dictionar------------"
+
+
+	#LOGIC FLOW:  there is only one mapping for none,gist,verb
+	for j in range(len(lolists)-12, len(lolists)):
+		dic[str(lolists[j][8])] = lolists[j]	
+ 
+
 	return dic
 
 # Create mapping
@@ -79,10 +94,20 @@ def shuffle_big_block():
 	list_one = shuffle_small_block()
 	list_two = shuffle_small_block()
 
+	if(first_piv == 1):
+		first = "gist"
+		second = "verb"
+	else:
+		first = "verb"
+		second = "gist"
+
+	out_block.append(first)
 	for ele in list_one:
 		out_block.append(ele + str(first_piv))
+	out_block.append(second)
 	for ele in list_two:
 		out_block.append( ele + str(1-first_piv))
+
 	return out_block #36 Questions
 
 
@@ -100,34 +125,122 @@ def shuffle_combine(a,b,c):
 		INcorporates Label type at end
 	'''
 		# create 3 36-question blocks and postpend a,b,c in that order
-	block_a = shuffle_big_block()
-	block_b = shuffle_big_block()
-	block_c = shuffle_big_block()
+	block_a = shuffle_big_block() #a
+	block_b = shuffle_big_block() #b
+	block_c = shuffle_big_block() #c
+	block_d = shuffle_big_block() #a
+	block_e = shuffle_big_block() #b 
+	block_f = shuffle_big_block() #c
 
 	out_block = []  #list containing all 108 Q
 
+
+	# figure out which a,b,c correspond to gist,verb,none
+	if(a == "10"):
+		a_inst = "gist"
+	elif(a == "01"):
+		a_inst = "verb"
+	else:
+		a_inst = "none"
+
+	if(b == "10"):
+		b_inst = "gist"
+	elif(b == "01"):
+		b_inst = "verb"
+	else:
+		b_inst = "none"
+
+	if(c == "10"):
+		c_inst = "gist"
+	elif(c == "01"):
+		c_inst = "verb"
+	else:
+		c_inst = "none"	
+
+	print "alsjdflkasdfjalksdjfklajsdlkjfaklsjdfaslkdfj"
+	print a_inst
+	print b_inst
+	print c_inst
+	print "ajsdflkajksdjfaklsdjf230903849028309480239492384"
+    
+    #add instruction
+ 	#out_block.append(a_inst)
+
+
 	for ele in block_a:
-		out_block.append(ele + "" + str(a))
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("p" + a_inst + "" + ele)  #LSB then LSB-1
+		else:
+			out_block.append(ele + "" + str(a))
+
+
+	#out_block.append(b_inst)
+	#add instruction
 	for ele in block_b:
-		out_block.append(ele + "" + str(b))
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("p" + b_inst + "" + ele)
+		else:
+			out_block.append(ele + "" + str(b))
+	
+	
+
+	#out_block.append(c_inst)
+	#add instruction
 	for ele in block_c:
-		out_block.append(ele + "" + str(c))
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("p" + c_inst + "" + ele)
+		else:
+			out_block.append(ele + "" + str(c))
+
+
+	#out_block.append(a_inst)
+	#add instruction
+	for ele in block_d:
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("w" + a_inst + "" + ele)
+		else:
+			out_block.append(ele + "" + str(a))
+
+	#out_block.append(b_inst)
+	#add instruction
+	for ele in block_e:
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("w" + b_inst + "" + ele)
+		else:
+			out_block.append(ele + "" + str(b))	
+	
+	#out_block.append(c_inst)
+	#add instruction
+	for ele in block_f:
+		if(ele == "gist" or ele  == "verb"):
+			out_block.append("w" + c_inst + "" + ele)
+		else:
+			out_block.append(ele + "" + str(c))
+
+	
 	return out_block
 
 
 
 def master_shuffle():
-	'''merges two 108 quesiton randomized blocks.'''
+	'''merges two 108 quesiton randomized blocks.
+	   Outputs twox108 codes in a list.
+	   # TODO:  Make instructions a code
+	'''
 	#determine gist/verbatim/none order
 	choices = ["None", "Verbatim", "Gist"]
 	pointer_c = ["00", "01", "10"]
 	random.shuffle(pointer_c)
 	#create shuffle_combine blocks
-	shuffled_108_1 = shuffle_combine(pointer_c[0], pointer_c[1], pointer_c[2])
 	shuffled_108_2 = shuffle_combine(pointer_c[0], pointer_c[1], pointer_c[2])
-	foo = []
-	foo.extend(shuffled_108_1)
-	foo.extend(shuffled_108_2)	
+ 	foo = []
+	foo.extend(shuffled_108_2)
+
+	print "*&&&&&&&&&&&&&showingoutblock&&&&&&&&&&&&&&"
+	print foo
+	print "2839283892382398283982892329839823182302830"
+
+
 	return foo
 
 
@@ -141,15 +254,14 @@ def write_out(dictionary, order):
 		outwriter = csv.writer(csvfile, delimiter = ',')
 		for value in order:
 			print value
-			print dictionary[str(value)]
+			#print dictionary[str(value)]
 			outwriter.writerow(dictionary[str(value)])
-	return "SUCCESS"
+	return "End of Run."
 		
 
-finish = "not successful"
-
+finish = "Program Failure."
 order_shuffle =  master_shuffle()
-print order_shuffle
+#print order_shuffle
 finish = write_out(data_dic, order_shuffle)
 print finish
 
