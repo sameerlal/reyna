@@ -10,7 +10,11 @@ import itertools
 parser = argparse.ArgumentParser(description='Randomize subject to certain conditions for Hot-Cold study.')
 parser.add_argument('-f','--file', help='CSV file containing questions and attributes.  File should be in same directory.', required=True)
 parser.add_argument('-s', '--seed', default = "-1", help = 'Participant ID number will be used as a seed for randomization', required = False)
+parser.add_argument('-o', '--order', default = 'xxx', help = 'Put (N)one, (G)ist, (V)erbatim, in specified order (e.g. -ngv for none-gist-verbatim order', required=False)
 args = vars(parser.parse_args())
+
+order = args['order']
+ 
 
  
 preamble = [] # contains headers
@@ -157,11 +161,7 @@ def shuffle_combine(a,b,c):
 	else:
 		c_inst = "none"	
 
-	print "alsjdflkasdfjalksdjfklajsdlkjfaklsjdfaslkdfj"
-	print a_inst
-	print b_inst
-	print c_inst
-	print "ajsdflkajksdjfaklsdjf230903849028309480239492384"
+
     
     #add instruction
  	#out_block.append(a_inst)
@@ -231,6 +231,19 @@ def master_shuffle():
 	choices = ["None", "Verbatim", "Gist"]
 	pointer_c = ["00", "01", "10"]
 	random.shuffle(pointer_c)
+
+	d_order = {'n' : '00', 'v' : '01' , 'g' : '10'}
+
+
+	#overwrite if necessary...
+	if(order != "xxx"):
+		pointer_c[0] = d_order[order[0]]
+		pointer_c[1] = d_order[order[1]]
+		pointer_c[2] = d_order[order[2]]
+		
+
+
+
 	#create shuffle_combine blocks
 	shuffled_108_2 = shuffle_combine(pointer_c[0], pointer_c[1], pointer_c[2])
  	foo = []
