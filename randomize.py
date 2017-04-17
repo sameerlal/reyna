@@ -13,7 +13,7 @@ parser.add_argument('-s', '--seed', default = "-1", help = 'Participant ID numbe
 args = vars(parser.parse_args())
 
  
-
+preamble = [] # contains headers
 
 dataquest = []	#	Contains ALL data in a list of lists 
 
@@ -33,7 +33,7 @@ print ">>>>>>>printing instr-cols>>>>>>>>>>>>>>"
 print instr_cols
 print ">>>>>>>>>>>end>>>>>>>>>>>>>>>>>>>>>>>>>"
 
-
+preamble = dataquest[0]
 
 def create_dictionary(lolists):
 	'''Idea is to create a dictionary that will link a question's ID to
@@ -252,6 +252,7 @@ def write_out(dictionary, order):
 	outfilename = "thisistheoutputfile" + str(args['seed']) + ".csv"
 	with open(outfilename, 'wb') as csvfile:
 		outwriter = csv.writer(csvfile, delimiter = ',')
+		outwriter.writerow(preamble)
 		for value in order:
 			print value
 			#print dictionary[str(value)]
