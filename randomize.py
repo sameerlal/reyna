@@ -9,7 +9,7 @@ import itertools
 #	Parse Arguments
 parser = argparse.ArgumentParser(description='Randomize subject to certain conditions for Hot-Cold study.')
 parser.add_argument('-f','--file', help='CSV file containing questions and attributes.  File should be in same directory.', required=True)
-parser.add_argument('-s', '--seed', default = "-1", help = 'Participant ID number will be used as a seed for randomization', required = False)
+parser.add_argument('-s', '--seed', default = "000", help = 'Participant ID number will be used as a seed for randomization', required = False)
 args = vars(parser.parse_args())
 
  
@@ -29,10 +29,8 @@ with open(args['file'], 'rb') as csvfile:
 
 for i in range(len(dataquest)-12, len(dataquest)):
 	instr_cols.append(dataquest[i])
-print ">>>>>>>printing instr-cols>>>>>>>>>>>>>>"
-print instr_cols
-print ">>>>>>>>>>>end>>>>>>>>>>>>>>>>>>>>>>>>>"
-
+#print instr_cols
+ 
 preamble = dataquest[0]
 
 def create_dictionary(lolists):
@@ -157,11 +155,11 @@ def shuffle_combine(a,b,c):
 	else:
 		c_inst = "none"	
 
-	print "alsjdflkasdfjalksdjfklajsdlkjfaklsjdfaslkdfj"
-	print a_inst
-	print b_inst
-	print c_inst
-	print "ajsdflkajksdjfaklsdjf230903849028309480239492384"
+	 
+	#print a_inst
+	#print b_inst
+	#print c_inst
+	 
     
     #add instruction
  	#out_block.append(a_inst)
@@ -235,10 +233,8 @@ def master_shuffle():
 	shuffled_108_2 = shuffle_combine(pointer_c[0], pointer_c[1], pointer_c[2])
  	foo = []
 	foo.extend(shuffled_108_2)
+	#print foo
 
-	print "*&&&&&&&&&&&&&showingoutblock&&&&&&&&&&&&&&"
-	print foo
-	print "2839283892382398283982892329839823182302830"
 
 
 	return foo
@@ -249,12 +245,12 @@ def write_out(dictionary, order):
 	
 	#print dictionary
 	#print order
-	outfilename = "thisistheoutputfile" + str(args['seed']) + ".csv"
+	outfilename = "participant_output_" + str(args['seed']) + ".csv"
 	with open(outfilename, 'wb') as csvfile:
 		outwriter = csv.writer(csvfile, delimiter = ',')
 		outwriter.writerow(preamble)
 		for value in order:
-			print value
+			#print value
 			#print dictionary[str(value)]
 			outwriter.writerow(dictionary[str(value)])
 	return "End of Run."
